@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "lu.h": "c",
+        "errno.h": "c"
+    }
+}
