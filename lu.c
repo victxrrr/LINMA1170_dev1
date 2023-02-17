@@ -1,5 +1,7 @@
-#include "lu.h"
 #include <stdio.h>
+#include <math.h>
+#include "lu.h"
+
 
 /**
  * Décompose la matrice A en sa factorisation LU : A = L@U
@@ -12,7 +14,7 @@ int lu(Matrix * A) {
 
     for (int k = 0; k < n; k++) {
         double akk = A->a[k][k];
-        if (akk < EPS) return -1;
+        if (fabs(akk) < EPS) return -1;
         for (int i = k + 1; i < n; i++) {
             A->a[i][k] /= akk;
             for (int j = k + 1; j < n; j++) {

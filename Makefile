@@ -11,7 +11,7 @@ test_lu: matrix.c lu.c test_lu.c
 
 complex: matrix.c lu.c complexity.c
 	$(CC) $(CFLAGS) -o $@ $^
-	./complex
+	./complex > data.txt
 
 clean:
 	rm -f test_mat
