@@ -6,5 +6,12 @@
         "stdio.h": "c",
         "assert.h": "c",
         "cmath": "c"
-    }
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/torvic/Documents/analyse numérique/devoir 1",
+            "binaryPath": "/home/torvic/Documents/analyse numérique/devoir 1/test_mat",
+            "binaryArgs": []
+        }
+    ]
 }
