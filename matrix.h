@@ -13,4 +13,6 @@ void free_matrix(Matrix * mat);         // libère la mémoire de la structure M
 // aux.
 int mult_matrix(Matrix * A, Matrix * B, Matrix * C);
 
+void print_matrix(Matrix * A);
+
 #endif

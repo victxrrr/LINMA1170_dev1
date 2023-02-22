@@ -61,3 +61,17 @@ int mult_matrix(Matrix * A, Matrix * B, Matrix * C) {
 	}
 	return 0;
 }
+
+/**
+ * Fonction auxiliaire imprimant le contenu de la matrice A sur la sortie standard
+ * @param A: matrice de dimension m x n
+*/
+void print_matrix(Matrix * A) {
+
+	for (int i = 0; i < A->m; i++) {
+        for (int j = 0; j < A->n; j++) {
+            printf("%.5f\t", A->a[i][j]);
+        }
+        printf("\n");
+    }
+}

@@ -52,3 +52,29 @@ int solve(Matrix * LU, double * y){
 
     return 0;
 }
+
+/**
+ * Décompose la matrice A en sa factorisation de Choleski : A = R*@R
+ * R est stocké dans A
+ * @param A: matrice n x n définie positive et symétrique
+ * @return 0
+*/
+int cholesky(Matrix * A) {
+
+    int n = A->m;
+
+    for (int k = 0; k < n; k++) {
+        double Rkk = A->a[k][k];
+        if (Rkk <= 0) return -1; // si A n'est pas définie positive
+        for (int i = k + 1; i < n; i++) {
+            double K = A->a[k][i]/Rkk;
+            for (int j = i; j < n; j++) {
+                A->a[i][j] -= A->a[k][j]*K;
+            }
+        }
+        for (int i = k; i < n; i++) {
+            A->a[k][i] = A->a[k][i]/sqrt(Rkk);
+        }
+    }
+    return 0; 
+}

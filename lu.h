@@ -19,4 +19,6 @@ int lu(Matrix * A);
 // Retourne 0 si tout s'est bien passé.
 int solve(Matrix * LU, double * y);
 
+int cholesky(Matrix * A);
+
 #endif

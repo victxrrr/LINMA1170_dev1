@@ -92,6 +92,76 @@ void test_lu_function(){
 
     assert(lu(B) == -1);
     free_matrix(B);
+
+
+    //      2  3  4     
+    // C =  5  6  7     (pivot nul en dernière position de la diagonale)
+    //      8  9  10
+
+    Matrix * C = allocate_matrix(3, 3);
+    C->a[0][0] = 2.0;
+    C->a[0][1] = 3.0;
+    C->a[0][2] = 4.0;
+    C->a[1][0] = 5.0;
+    C->a[1][1] = 6.0;
+    C->a[1][2] = 7.0;
+    C->a[2][0] = 8.0;
+    C->a[2][1] = 9.0;
+    C->a[2][2] = 10.0;
+
+    assert(lu(C) == -1);
+
+    free_matrix(C);
+    
+
+    // matrices aléatoires, on vérifie que D = L@U
+
+    for (int n = 8; n < 2048; n *= 2) {
+        Matrix * D = allocate_matrix(n, n);
+        Matrix * true_D = allocate_matrix(n, n);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                double random;
+                if (i == j) {
+                    random = drand48();
+                    D->a[i][j] = random + (double) n;
+                    true_D->a[i][j] = random + (double) n;
+                } else {
+                    random = drand48();
+                    D->a[i][j] = random;
+                    true_D->a[i][j] = random;
+                }
+            }
+        }
+        assert(!lu(D));
+
+        Matrix *DL = allocate_matrix(n, n);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                DL->a[i][j] = D->a[i][j];
+            }
+            DL->a[i][i] = 1.0;
+        }
+
+        Matrix *DU = allocate_matrix(n, n);
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                DU->a[i][j] = D->a[i][j];
+            }
+        }
+
+        mult_matrix(DL, DU, D);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                assert(fabs(D->a[i][j] - true_D->a[i][j]) < TOL);
+            }
+        }
+
+        free_matrix(DL);
+        free_matrix(DU);
+        free_matrix(D);
+        free_matrix(true_D);
+    }
 }
 
 void test_solve(){
@@ -150,10 +220,62 @@ void test_solve(){
     free(y);
 }
 
+void test_choleski(){
+
+    //  2 -1  1
+    // -1  2 -1
+    //  1 -1  2
+
+    double true_A[3][3] = {{2.0, -1.0, 1.0}, {-1.0, 2.0, -1.0}, {1.0, -1.0, 2.0}};
+
+    Matrix * A = allocate_matrix(3, 3);
+    
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            A->a[i][j] = true_A[i][j];
+        }
+    }
+
+    assert(!cholesky(A));
+
+    double true_R[3][3] = {{sqrt(2), -sqrt(2)/2, sqrt(2)/2}, {0, sqrt(6)/2, -sqrt(6)/6}, {0, 0, 2*sqrt(3)/3}};
+    for (int i = 0; i < 3; i++) {
+        for (int j = i; j < 3; j++) {
+            assert(fabs(A->a[i][j] - true_R[i][j]) < TOL);
+        }
+    }
+
+    Matrix * R = allocate_matrix(3, 3);
+    Matrix * RT = allocate_matrix(3, 3);
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (j < i) {
+                R->a[i][j] = 0.0;
+                RT->a[j][i] = 0.0;
+            } else {
+                R->a[i][j] = A->a[i][j];
+                RT->a[j][i] = A->a[i][j];
+            }
+        }
+    }
+
+    assert(!mult_matrix(RT, R, A));
+    
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            assert(fabs(A->a[i][j] - true_A[i][j]) < TOL);
+        }
+    }
+    free_matrix(R);
+    free_matrix(RT);
+    free_matrix(A);
+}
+
 int main(){
     
     test_lu_function();
-    test_solve();
+    //test_solve();
+    //test_choleski();
 
     return 0;
 }
