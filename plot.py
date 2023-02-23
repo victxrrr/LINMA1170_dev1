@@ -25,7 +25,7 @@ def parse_file(data):
     return size, time
 
 def plot(x, y):
-    fig, ax = plt.subplots(nrows=2, ncols=1, sharex=True, figsize=(8, 7), dpi=200, num="Analyse Numérique: Devoir 1")
+    fig, ax = plt.subplots(nrows=2, ncols=1, sharex=True, figsize=(6.5, 7), dpi=200, num="Analyse Numérique: Devoir 1")
     sz = 12
     #fig.suptitle("Mesure des performances des algorithmes définis dans lu.h")
     fig.tight_layout(pad=3.0)

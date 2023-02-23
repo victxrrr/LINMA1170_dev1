@@ -70,8 +70,9 @@ void print_matrix(Matrix * A) {
 
 	for (int i = 0; i < A->m; i++) {
         for (int j = 0; j < A->n; j++) {
-            printf("%.5f\t", A->a[i][j]);
+            printf("%.3f\t", A->a[i][j]);
         }
         printf("\n");
     }
+	printf("\n");
 }
