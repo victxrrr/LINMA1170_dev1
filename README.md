@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="#usage">Usage</a> •
-  <a href="#auteurs">Auteurs</a> •
+  <a href="#auteurs">Auteurs</a>
 </p>
 
 
